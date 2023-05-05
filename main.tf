@@ -32,9 +32,9 @@ module "blob_vpc" {
 }
 
 resource "aws_instance" "blob" {
-  ami           = data.aws_ami.app_ami.id
-  instance_type = var.instance_type
-  subnet_id = module.blob_vpc.public_subnets[0]
+  ami                    = data.aws_ami.app_ami.id
+  instance_type          = var.instance_type
+  subnet_id              = module.blob_vpc.public_subnets[0]
   vpc_security_group_ids = [module.blob_sg.security_group_id]
 
   tags = {
@@ -47,9 +47,9 @@ module "blob_sg" {
   version = "4.17.2"
   name    = "blob_security_group"
 
-  vpc_id              = module.blob_vpc.public_subnets[0]
+  vpc_id              = module.blob_vpc.vpc_id
   ingress_rules       = ["http-80-tcp", "https-443-tcp"]
   ingress_cidr_blocks = ["0.0.0.0/0"]
-  egress_rules       = ["all-all"]
-  egress_cidr_blocks = ["0.0.0.0/0"]
+  egress_rules        = ["all-all"]
+  egress_cidr_blocks  = ["0.0.0.0/0"]
 }

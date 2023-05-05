@@ -31,18 +31,24 @@ module "blob_vpc" {
   }
 }
 
-resource "aws_instance" "blob" {
-  ami                    = data.aws_ami.app_ami.id
-  instance_type          = var.instance_type
-  subnet_id              = module.blob_vpc.public_subnets[0]
-  vpc_security_group_ids = [module.blob_sg.security_group_id]
+module "autoscaling" {
+  source  = "terraform-aws-modules/autoscaling/aws"
+  version = "6.9.0"
+  # insert the 1 required variable here
+  name = "blob"
+  min_size = 1
+  max_size = 3
+  
+  vpc_zone_identifier = module.blob_vpc.public_subnets
+  target_group_arns = module.blob_alb.public_group_arns
 
-  tags = {
-    Name = "Hello AWS, this is a test"
-  }
+  security_groups = [module.blob_sg.security_group_id]
+
+  image_id                    = data.aws_ami.app_ami.id
+  instance_type          = var.instance_type
 }
 
-module "alb" {
+module "blob_alb" {
   source  = "terraform-aws-modules/alb/aws"
   version = "~> 8.0"
 

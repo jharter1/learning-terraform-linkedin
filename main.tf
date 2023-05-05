@@ -17,7 +17,7 @@ data "aws_ami" "app_ami" {
 module "blob_vpc" {
   source = "terraform-aws-modules/vpc/aws"
 
-  name = "dev"
+  name = "hartrnet-dev"
   cidr = "10.0.0.0/16"
 
   azs            = ["us-west-2a", "us-west-2b", "us-west-2c"]
@@ -45,7 +45,7 @@ resource "aws_instance" "blob" {
 module "blob_sg" {
   source  = "terraform-aws-modules/security-group/aws"
   version = "4.17.2"
-  name    = "blob_security_group"
+  name    = "blob"
 
   vpc_id              = module.blob_vpc.vpc_id
   ingress_rules       = ["http-80-tcp", "https-443-tcp"]

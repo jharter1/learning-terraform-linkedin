@@ -44,7 +44,7 @@ resource "aws_instance" "blob" {
 
 module "blob_sg" {
   source  = "terraform-aws-modules/security-group/aws"
-  version = "4.17.2"
+  version = "4.13.0"
   name    = "blob"
 
   vpc_id              = module.blob_vpc.vpc_id

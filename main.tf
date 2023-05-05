@@ -35,17 +35,17 @@ module "autoscaling" {
   source  = "terraform-aws-modules/autoscaling/aws"
   version = "6.9.0"
   # insert the 1 required variable here
-  name = "blob"
+  name     = "blob"
   min_size = 1
   max_size = 3
-  
+
   vpc_zone_identifier = module.blob_vpc.public_subnets
-  target_group_arns = module.blob_alb.target_group_arns
+  target_group_arns   = module.blob_alb.target_group_arns
 
   security_groups = [module.blob_sg.security_group_id]
 
-  image_id                    = data.aws_ami.app_ami.id
-  instance_type          = var.instance_type
+  image_id      = data.aws_ami.app_ami.id
+  instance_type = var.instance_type
 }
 
 module "blob_alb" {
@@ -56,9 +56,9 @@ module "blob_alb" {
 
   load_balancer_type = "application"
 
-  vpc_id             = module.blob_vpc.vpc_id
-  subnets            = module.blob_vpc.public_subnets
-  security_groups    = [module.blob_sg.security_group_id]
+  vpc_id          = module.blob_vpc.vpc_id
+  subnets         = module.blob_vpc.public_subnets
+  security_groups = [module.blob_sg.security_group_id]
 
   target_groups = [
     {

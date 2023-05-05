@@ -32,7 +32,7 @@ resource "aws_instance" "blob" {
 module "blob-sg" {
   source  = "terraform-aws-modules/security-group/aws"
   version = "4.17.2"
-  name = "blob_new_security_group"
+  name = "blob_security_group"
 
   vpc_id = data.aws_vpc.default.id
   ingress_rules = ["http-80-tcp", "https-443-tcp"]

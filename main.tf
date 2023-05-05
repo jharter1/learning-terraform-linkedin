@@ -40,7 +40,7 @@ module "autoscaling" {
   max_size = 3
   
   vpc_zone_identifier = module.blob_vpc.public_subnets
-  target_group_arns = module.blob_alb.public_group_arns
+  target_group_arns = module.blob_alb.target_group_arns
 
   security_groups = [module.blob_sg.security_group_id]
 
